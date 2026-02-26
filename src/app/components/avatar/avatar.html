@@ -1,50 +1,74 @@
-<div class="contaier">
-    <h2>Avatar</h2>
-    <div class="canvas-avatar">
-        <div class="cuerpo"
-        [style.background-color]="colorFondo()"
-        [style.width.px]="tamano()"
-        [style.height.px]="tamano()"
-        >
-         <div class="ojos">
-            <div class="ojo"></div>
-            <div class="ojo"></div>
-            @if (tieneLentes()) {
-                <div class="lentes"></div>
-            }
-        </div>
+<div class="container">
+  <h2>Avatar</h2>
 
-        <div class="boca">
-         @switch (tipoExpresion()) {
-            @case (1) {<div class="feliz"></div>}
-            @case (2) {<div class="sorprendido"></div>}
-            @case (3) {<div class="serio"></div>}
-         } 
-         </div>
+  <div style="margin: 10px 0;">
+    <input 
+      type="text" 
+      [value]="nombre()" 
+      (input)="cambiarNombre($event)"
+      placeholder=""
+    >
+  </div>
+
+  <div class="canvas-avatar">
+    <div class="cuerpo"
+         [style.background-color]="colorFondo()"
+         [style.width.px]="tamano()"
+         [style.height.px]="tamano()"
+         [style.transform]="'rotate(' + rotacion() + 'deg)'">
+
+      <div class="ojos">
+        <div class="ojo"></div>
+        <div class="ojo"></div>
+        @if (tieneLentes()){
+          <div class="lentes"></div>
+        }
+      </div>
+
+      <div class="boca">
+        @switch (tipoExpresion()){
+          @case (1) { <div class="feliz"></div> }
+          @case (2) { <div class="sorprendido"></div> }
+          @case (3) { <div class="serio"></div> }
+        }
+      </div>
     </div>
-</div>
+  </div>
 
-<div class="controles">
-    <label color>
-        <input type="color" [value]="colorFondo()" (input)="cambiarColor($event)">
-    </label>
+  <div style="text-align: center; margin-top: 10px; font-family: Arial; font-weight: bold; font-size: 1.2rem;" 
+       [style.color]="colorFondo()">
+    {{ nombre() }}
+  </div>
 
-    <label tamaño>
-        <input type="range" min="100" max="300" [value]="tamano()" (input)="cambiarTamano($event)">
-    </label>
+  <hr>
 
-    <button (click)="toogelLentes()">
-        {{tieneLentes() ? 'Quitar Lentes' : 'Poner Lentes'}} (Boolean)
+  <div class="controles">
+    <div class="control-group">
+      <label>Color de fondo:</label>
+      <input type="color" [value]="colorFondo()" (input)="cambiarColor($event)">
+    </div>
+
+    <div class="control-group">
+      <label>Tamaño ({{ tamano() }}px):</label>
+      <input type="range" min="100" max="300" [value]="tamano()" (input)="cambiarTamano($event)">
+    </div>
+
+    <div class="control-group">
+      <label>Rotación ({{ rotacion() }}°):</label>
+      <input type="range" min="0" max="360" [value]="rotacion()" (input)="cambiarRotacion($event)">
+    </div>
+
+    <button (click)="toggleLentes()" class="btn-lentes">
+      {{ tieneLentes() ? 'Quitar lentes' : 'Poner lentes' }}
     </button>
-</div>
 
-
-<div Expresion>
-    <label>
-        <select (change)="cambiarExpresion($event)">
-            <option value="1">Feliz</option>
-            <option value="2">Sorprendido</option>
-            <option value="3">Serio</option>
-        </select>
-    </label>
+    <div class="expresiones">
+      <p>Expresión</p>
+      <div class="btn-group">
+        <button (click)="setExpresion(1)">Feliz</button>
+        <button (click)="setExpresion(2)">Sorprendido</button>
+        <button (click)="setExpresion(3)">Serio</button>
+      </div>
+    </div>
+  </div>
 </div>
